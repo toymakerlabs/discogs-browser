@@ -3,8 +3,10 @@ html,body{
 }
 
 .modal-large{
-   width:740px;
-   margin-left:-350px;
+   width:760px;
+   height: 460px;
+   margin-left:-380px;
+   overflow-y:hidden;
 }
 
 #dc-search-fields input{
@@ -22,11 +24,6 @@ html,body{
     overflow-y:scroll;
 }
 
-#dc-search-results{
-    height: 320px;
-    overflow-y: scroll;
-
-}
 #dc-controls {
     height:40px;
 }

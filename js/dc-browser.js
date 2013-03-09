@@ -1,11 +1,6 @@
 $(function(){
     //$('#dc-browser').modal();
-    $('#dc-results').carousel({
-        interval:false
-    });
-    $('#dc-controls').carousel({
-        interval:false
-    });
+
     DiscogsBrowser.init()
 })
 
@@ -152,16 +147,16 @@ var DiscogsBrowser  = (function(){
         for (i=1;i<=pages;i++){
             pagination += '<li><a href="#">'+i+"</a></li>";
         }
-        var controls = $('#dc-controls').find('#dc-results-pagination ul');
-        controls.html("<h5>Results Found: " +items+"</h5>&nbsp;<ul><li class='disabled'><a href='#' id='pag-prev'>Prev</a></li>"+pagination+"<li><a href='#' id='pag-next'>Next</a></li></ul>")
-        $("#dc-results-pagination ul").find('li:eq(1)').addClass('active')
+        var controls = $('#dc-controls').find('#dc-results-pagination');
+        controls.html("<h5>Results Found: " +items+"</h5>&nbsp;<ul><ul><li class='disabled'><a href='#' id='pag-prev'>Prev</a></li>"+pagination+"<li><a href='#' id='pag-next'>Next</a></li></ul>")
+        $("#dc-results-pagination").find('li:eq(1)').addClass('active')
 
         
         $('#pag-next').click(function(){
             if(currentPage<pages){
                 getReleases(currentPage+1,false);
-                $("#dc-results-pagination ul").find('.active').removeClass()
-                $("#dc-results-pagination ul").find('li:eq('+(currentPage+1)+')').addClass('active');
+                $("#dc-results-pagination").find('.active').removeClass()
+                $("#dc-results-pagination").find('li:eq('+(currentPage+1)+')').addClass('active');
                 $('#pag-prev').parent().removeClass('disabled');
             }
             if(currentPage+1 == pages){
@@ -173,8 +168,8 @@ var DiscogsBrowser  = (function(){
         $('#pag-prev').click(function(){
             if(currentPage>1){
                 getReleases(currentPage-1,false);
-                $("#dc-results-pagination ul").find('.active').removeClass()
-                $("#dc-results-pagination ul").find('li:eq('+(currentPage-1)+')').addClass('active');
+                $("#dc-results-pagination").find('.active').removeClass()
+                $("#dc-results-pagination").find('li:eq('+(currentPage-1)+')').addClass('active');
                 $('#pag-next').parent().removeClass('disabled');
             }
             if(currentPage-1 == 1){
@@ -183,7 +178,7 @@ var DiscogsBrowser  = (function(){
             //console.log(currentPage);
         })
 
-        $("#dc-results-pagination ul").on("click","li",function(){
+        $("#dc-results-pagination").on("click","li",function(){
             //match digits to avoid adding "next/prev" to currentpage
             var r = /\d+/;
             var index = $(this).find('a').html().match(r);
@@ -229,6 +224,13 @@ var DiscogsBrowser  = (function(){
     }
 
     function bindInteractions() {
+        $('#dc-results').carousel({
+            interval:false
+        });
+        $('#dc-controls').carousel({
+            interval:false
+        });
+
         buttons.browse.click(function(){
             getReleases(1,true);
         })
@@ -241,6 +243,7 @@ var DiscogsBrowser  = (function(){
     return{
         init:function(){
             //compile handlebars template
+            //
             bindInteractions();
 
         }
