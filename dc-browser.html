@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/dc-browser.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script id="release-results" type="text/x-handlebars-template">
+        <table class="table table-hover">
+        <tbody>
+        {{#results}}
+        <tr>
+            <td class="thumb"><img src="{{thumb}}"/><i class='icon-download'>Add </i></td>
+            <td class="release-info" data-release={{{id}}>
+                <ul class="unstyled">
+                    <li><h5>{{title}}</h5></li>
+                    <li>{{country}} | {{#each format}}{{this}}, {{/each}}</li>
+                    <li>{{catno}}</li>
+                    <li>{{year}}, {{#each label}}{{this}}, {{/each}}</li>       
+                </ul>
+            </td>
+        </tr>
+        {{/results}}
+        </tbody>
+        </table>
+    </script>
+     <script id="release-details" type="text/x-handlebars-template">
+     <div id='release-details'>
+        <h3>{{title}}</h3>
+        <ul class='unstyled'>
+            <li><h5>{{#each artists}}{{name}}{{/each}}</h5></li>
+            <li>{{country}}, {{year}}</li>
+            <li>Format: {{qty}} | {{#each formats}}{{name}} | {{#each descriptions}}{{this}} {{/each}} {{/each}}</li>
+            {{#each labels}}<li>Label: {{name}}</li><li>Catalog No:{{catno}}</li>{{/each}}
+            <li>{{released}}</li>
+        </ul>
+        <img src="{{images.0.uri150}}" />
+        <h4 class='heading'>Notes</h4>
+        <p>{{notes}}</p>
+        <h4 class='heading'>Tracklist</h4>
+        <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Title</th>
+            <th>Time</th>
+            <th>Order</th>
+        </tr>
+        {{#tracklist}}
+            <tr>
+                <td>{{title}}</td>
+                <td>{{duration}}</td>
+                <td>{{position}}</td>
+            </tr>
+        {{/tracklist}}
+        </tbody>
+        </table>
+
+        <h4 class='heading'>Credits</h4>
+        <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+        </tr>
+        {{#extraartists}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{role}}</td>
+            </tr>
+        {{/extraartists}}
+        </tbody>
+        </table>
+        </div>
+    </script>
+</head>
+<body>
+    <a href="#dc-browser" role="button" class="btn" data-toggle="modal">Search</a>
+    <div id="dc-browser" class="modal hide fade modal-large" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i></button>
+            <h3 id="modal-label">Browse Releases</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="span3">
+                    <fieldset id="dc-search-fields" class="form-horizontal">
+                        <input id="dc-title" class="span3" type="text" placeholder="Title">
+                        <input id="dc-artist" class="span3" type="text" placeholder="Artist">
+                        <input id="dc-catno" class="span3" type="text" placeholder="Cat No.">
+                        <input id="dc-format" class="span3" type="text" placeholder="format">
+                        <input id="dc-upc" class="span3" type="text" placeholder="UPC">
+                        <button id="dc-reset" class="btn"><i class="icon-reply"></i> reset</button>
+                        <button id="dc-browse" class="btn">Browse <i class="icon-double-angle-right"></i></button>
+                        <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                    </fieldset>
+                </div>
+                <div class="span6 ">
+                    <div id="dc-results" class="carousel slide">
+                        <div class='carousel-inner'>
+                            <div class="active item"></div>
+                            <div class="item"></div>
+                        </div>
+                    </div>
+
+                    <div id="dc-controls" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class='active item'>
+
+                             </div>
+                            <div class='item'>
+                                <div id="dc-results-pagination" class="pagination pagination-small span6">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/handlebars.js"></script>
+<script type="text/javascript" src="js/dc-browser.js"></script>
+
+</body>
+</html>
