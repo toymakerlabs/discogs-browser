@@ -20,7 +20,7 @@ html,body{
 }
 
 #dc-results{
-    height:280px;
+    height:400px;
     overflow-y:scroll;
 }
 s
@@ -48,14 +48,16 @@ td.thumb i{
     color:#999;
 }
 
-
+.row:nth-child(odd){
+    background-color: #F2F2F2
+}
 
 
 #release-details img {
     float:right;
 }
 #release-details ul {
-    max-width:280px;
+
     float:left;
 }
 #release-details h1{
