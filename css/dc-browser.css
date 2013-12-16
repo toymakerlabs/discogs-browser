@@ -23,17 +23,10 @@ html,body{
     height:400px;
     overflow-y:scroll;
 }
-s
-#dc-controls {
-    height:40px;
-}
+
 td.release-info h5{
     padding:0;
     margin: 0;
-}
-#dc-results-pagination {
-    z-index:10;
-    margin:10px 0;
 }
 #dc-results-pagination h5{
     float:left;

@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="css/dc-browser.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script id="release-results" type="text/x-handlebars-template">
-
         <table class="table table-hover">
         <tbody>
         {{#results}}
@@ -75,6 +74,18 @@
         </div>
     </script>
     <script id="results-pagination" type="text/x-handlebars-template">
+    <ul class='pagination'>
+    <li class='btn disabled'><a href='#' id='pag-prev'>Prev</a></li>
+    <li class='btn disabled' data-page="1"><a href='#' id='pag-first'>First</a></li>
+    {{#entries}}
+        {{#if isDisabled}}
+            <li class='disabled'><a href='#'>{{number}}</a></li>
+        {{else}}
+            <li data-page='{{number}}'><a href='#'>{{number}}</a></li>
+        {{/if}}
+    {{/entries}}
+        <li class='btn'><a href='#' id='pag-next'>Next</a></li></ul>
+    </ul>
     </script>
 </head>
 <body>  
@@ -106,44 +117,51 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-12">
-                                <button id="dc-reset" class="btn"><i class="icon-reply"></i> Clear</button>
-                                <button id="dc-browse" class="btn">Search<i class="icon-double-angle-right"></i></button>
-                                <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                                
+                                <button id="dc-browse" type="button" class="btn btn-primary pull-right">Search<i class="icon-double-angle-right"></i></button>
+                                
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-                <div class="col-xs-12 col-sm-8 col-md-8">
-                    <div class="panel panel-default">
-                    <div class="panel-heading">Results</div>
+            <div class="col-xs-12 col-sm-8 col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Results
+                        <button id="dc-reset" class="btn btn-default btn-xs close pull-right"aria-hidden="true">&times;</button>
+                        <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                    </div>
+
                     <div id="dc-results" class="carousel slide">
                         <div class='carousel-inner'>
                             <div class="active item"></div>
                             <div class="item"></div>
                         </div>
                     </div>
-                </div>
-                    <div id="dc-controls" class="carousel slide">
+
+                    <div class="panel-footer">
+                        <div id="dc-controls" class="carousel slide">
                             <div class="carousel-inner">
                                 <div class='active item'>
 
                                  </div>
                                 <div class='item'>
-                                    <div id="dc-results-pagination" class="pagination pagination-small span6">
+                                    <div id="dc-results-pagination">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+        </div>
 
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/handlebars.js"></script>
 <script type="text/javascript" src="js/dc-browser.js"></script>
+<script type="text/javascript" src="js/tests.js"></script>
 
 </body>
 </html>

@@ -16,8 +16,10 @@ var DiscogsBrowser  = (function(){
         status = $('#dc-status'),
         release_template = $("#release-results").html(),
         details_template = $("#release-details").html(),
+        pagination_template = $("#results-pagination").html(),
         entries = Handlebars.compile(release_template),
-        release_details = Handlebars.compile(details_template), 
+        release_details = Handlebars.compile(details_template),
+        pages_output =  Handlebars.compile(pagination_template),
         currentPage = 1;
 
     var fields = {
@@ -48,7 +50,7 @@ var DiscogsBrowser  = (function(){
 
         //show status icon
         status.css({'display':'block'});
-        
+
         //has to be executed from 127.0.0.1
         $.ajax({
             url: 'http://api.discogs.com/database/search?callback=?',
@@ -108,66 +110,96 @@ var DiscogsBrowser  = (function(){
 
     function doPagination(results){
         var pages    = results.data.pagination.pages,
+            page     = results.data.pagination.page,
             items    = results.data.pagination.items,
-            list = "";
+            list = {};
+
+        list.entries = [];
+
+        if(pages>8){
+            for (var i=0;i<6;i++){
+                if (page == pages){
+                    list.entries.push({number:String((pages-6)+i)})
+                }else{
+                    list.entries.push({number:String(page+i)})
+                };
+            }
+            list.entries.push({number:"...",isDisabled:true});
+            list.entries.push({number:String(pages)});
+        }else{
+            for (i=1;i<=pages;i++){
+                list.entries.push({number:String(i)});
+            }
+        }
+        console.log(list.entries);
+        pagination.html(pages_output(list))
+
+        if(page >1){
+            $('#pag-prev').parent().removeClass('disabled');
+            $('#pag-first').parent().removeClass('disabled');
+        }
+        if(page == pages){
+            $('#pag-next').parent().addClass('disabled');
+
+        }
+        if(page == 1){
+            $('#pag-prev').parent().addClass('disabled');
+            $('#pag-prev').parent().addClass('disabled');
+        }
+
+        if (pages < 8){
+            pagination.find("[data-page='" + page + "']").addClass('active');
+        }else{
+            pagination.find('li:eq(2)').addClass('active');
+        }
+        
 
 
-        //only show 11 pages for now due to space. add an advance pages button. 
-        if(pages>11){
-            pages = 11;
-        }
-        for (i=1;i<=pages;i++){
-            list += '<li><a href="#">'+i+"</a></li>";
-        }
-        pagination.html("<h5>Results Found: " +items+"</h5>&nbsp;<ul><ul><li class='disabled'><a href='#' id='pag-prev'>Prev</a></li>"+list+"<li><a href='#' id='pag-next'>Next</a></li></ul>");
-        pagination.find('li:eq(1)').addClass('active');
+
+        //target.html(release_details(data.resp.release))
+        //
+        // //only show 11 pages for now due to space. add an advance pages button. 
+        // if(pages>8){
+        //     pages = 8;
+        // }
+        // for (i=1;i<=pages;i++){
+        //     list += '<li><a href="#">'+i+"</a></li>";
+        // }
+        // pagination.html("<h5>Results Found: " +items+"</h5>&nbsp;<ul class='pagination'><li class='disabled'><a href='#' id='pag-prev'>Prev</a></li>"+list+"<li><a href='#' id='pag-next'>Next</a></li></ul>");
+        // pagination.find('li:eq(1)').addClass('active');
 
         //Pagination next
         $('#pag-next').click(function(){
-            if(currentPage < pages){
-                getReleases(currentPage+1, false);
-                pagination.find('.active').removeClass();
-                pagination.find('li:eq('+(currentPage+1)+')').addClass('active');
-                $('#pag-prev').parent().removeClass('disabled');
-            }
-            if(currentPage+1 == pages){
-                $(this).parent().addClass('disabled');
+            if(page < pages){
+                getReleases(page+1, true);
             }
         })
         //Pagination prev
         $('#pag-prev').click(function(){
-            if(currentPage>1){
-                getReleases(currentPage-1,false);
-                pagination.find('.active').removeClass();
-                pagination.find('li:eq('+(currentPage-1)+')').addClass('active');
-                $('#pag-next').parent().removeClass('disabled');
-            }
-            if(currentPage-1 == 1){
-                $(this).parent().addClass('disabled');
+            if(page>1){
+                getReleases(page-1,true);
             }
         })
 
+
         pagination.on("click","li",function(){
             //match digits to avoid adding "next/prev" to currentpage
-            var r = /\d+/;
-            var index = $(this).find('a').html().match(r);
+            var index = $(this).data("page");
 
             if(index != null){
-                console.log(index[0]);
-                getReleases(index[0],false);
-                pagination.find('.active').removeClass();
-                pagination.find('li:eq('+(index[0])+')').addClass('active');
+                console.log(index);
+                getReleases(index,true);
 
-                if(index[0] == 1){
-                    buttons.page_next.parent().addClass('disabled');
-                }else {
-                    buttons.page_prev.parent().removeClass('disabled');
-                }
-                if(index[0] == pages){
-                    buttons.page_next.parent().addClass('disabled');
-                }else{
-                    buttons.page_next.parent().removeClass('disabled');
-                }
+                // if(index == 1){
+                //     buttons.page_next.parent().addClass('disabled');
+                // }else {
+                //     buttons.page_prev.parent().removeClass('disabled');
+                // }
+                // if(index == pages){
+                //     buttons.page_next.parent().addClass('disabled');
+                // }else{
+                //     buttons.page_next.parent().removeClass('disabled');
+                // }
             }
          });
     }
@@ -196,8 +228,10 @@ var DiscogsBrowser  = (function(){
 
         results.carousel('next');
         controls.carousel('next');
+        console.log("advance")
 
-        $('#dc-details-back').click(function(){
+        $('#dc-details-back').click(function(e){
+            e.stopPropagation();
             results.carousel('prev');
             controls.carousel('prev');
         });
@@ -250,58 +284,4 @@ var DiscogsBrowser  = (function(){
         }
     }
 
-})();
-
-    function callbackname(){
-        console.log("received")
-    }
-
-var tests = (function(){
-
-    function run2(){
-        $.ajax({
-            type: 'GET',
-            url: "http://api.discogs.com/database/search?callback=?",
-            async: false,
-            jsonpCallback: 'myJSON',
-            contentType: "application/json",
-            dataType: 'jsonp',
-            data: { 
-                q: 'nirvana', 
-                per_page: '10' 
-            }, 
-            success: function(json) {
-               console.log(json);
-            },
-            error: function(e) {
-               console.log(e.message);
-            }
-        });
-    }
-
-    function run1(){
-        $.ajax({ 
-            url: 'http://api.discogs.com/search', 
-            type: "GET", 
-            dataType: 'jsonp', 
-            data: { 
-                q: 'nirvana', 
-                per_page: '10' 
-            }, 
-            success: function (data) { 
-                alert(data); 
-                } 
-            }); 
-    }
-    function run(){
-        $.getJSON("http://api.discogs.com/artists/1?callback=?", function(resp) { 
-            console.log(resp)
-        }).error(function(data) { console.log(data) });
-    }
-
-    return {
-        testAPI:function(){
-            run();
-        }
-    }
 })();
