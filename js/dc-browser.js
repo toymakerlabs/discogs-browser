@@ -43,7 +43,7 @@ var DiscogsBrowser  = (function(){
 
     function getReleases(release_page,paginate){
         var query = "";
-
+        console.log("get")
         if(fields.format.val()){
             query = "format:"+fields.format.val();
         }
@@ -53,9 +53,9 @@ var DiscogsBrowser  = (function(){
 
         //has to be executed from 127.0.0.1
         $.ajax({
-            url: 'http://api.discogs.com/database/search?callback=?',
+            url: 'http://api.discogs.com/database/search',
             type: "GET",
-            dataType: 'json',
+            dataType: 'jsonp',
             data: {
                 q:query,
                 release_title:fields.release_title.val(),
@@ -67,11 +67,11 @@ var DiscogsBrowser  = (function(){
             },
             success: function (data) {
                 parseReleases(data);
-                if(paginate == true){
-                    doPagination(data);
-                    results.carousel('prev');
-                    controls.carousel(1);
-                }
+                doPagination(data);
+                
+            },
+            error:function(msg){
+                console.log(msg)
             }
         });
 
@@ -79,7 +79,6 @@ var DiscogsBrowser  = (function(){
 
     //Parse the list of releases
     function parseReleases(release_list) {
-       console.log(release_list.data)
         var releases = release_list.data.results,
             page = release_list.data.pagination.page,
             pages = release_list.data.pagination.pages;
@@ -106,6 +105,10 @@ var DiscogsBrowser  = (function(){
             console.log('click');
         })
 
+        console.log('success transition');
+        results.carousel('prev');
+        controls.carousel(1);
+
     }
 
     function doPagination(results){
@@ -131,7 +134,6 @@ var DiscogsBrowser  = (function(){
                 list.entries.push({number:String(i)});
             }
         }
-        console.log(list.entries);
         pagination.html(pages_output(list))
 
         if(page >1){
@@ -182,10 +184,12 @@ var DiscogsBrowser  = (function(){
         })
 
 
-        pagination.on("click","li",function(){
+        pagination.off().on("click","li",function(e){
             //match digits to avoid adding "next/prev" to currentpage
             var index = $(this).data("page");
-
+            e.stopPropagation();
+            e.preventDefault();
+            console.log("clicky")
             if(index != null){
                 console.log(index);
                 getReleases(index,true);
