@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="css/dc-browser.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>  
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Results
+                        <button id="dc-reset" class="btn btn-default btn-xs close pull-right"aria-hidden="true">&times;</button>
+                        <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                    </div>
+
+                    <div id="slider" class="dyanmo">
+                        <div class='dyanmo-inner'>
+                            <div id="slide0" class="page active">test1</div>
+                            <div id="slide1" class="page ">test2</div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel-footer">test</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Results
+                        <button id="dc-reset" class="btn btn-default btn-xs close pull-right"aria-hidden="true">&times;</button>
+                        <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                    </div>
+
+                    <div id="slider2" class="dyanmo">
+                        <div class='dyanmo-inner'>
+                            <div id="slide3" class="page active">test3</div>
+                            <div id="slide4" class="page ">test4</div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel-footer">test</div>
+                </div>
+            </div>
+            <button id="test1">slide1</button>
+            <button id="test2">slide2</button>
+
+        </div>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/handlebars.js"></script>
+<script type="text/javascript" src="js/duke.js"></script>
+<script type="text/javascript" src="js/dynamo.js"></script>
+<script>
+
+var Test = (function(){
+    var results = $("#slider"),
+        controls = $("#slider2"),
+        button1 = $("#test1"),
+        button2 = $("#test2");
+
+    function bind(){
+        results.dynamo();
+        controls.dynamo();
+
+        button1.click(function(){
+            results.dynamo("next");
+        });
+        button2.click(function(){
+            controls.dynamo("next");
+        });
+
+    }
+    return {
+        init:function(){
+            bind();
+        }
+    }
+})();
+$(document).ready(function(){
+    Test.init()
+})
+    
+</script>
+</body>
+</html>

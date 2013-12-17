@@ -72,3 +72,25 @@ td.thumb i{
 .release_entry {float:left;clear:both;margin-top:5px;}
 .release_entry .description{float:left;}
 .release_entry img{float:left;}
+
+
+
+
+/*dynamo*/
+.dyanmo{overflow: hidden;height: 100px;}
+.dyanmo-inner{position:relative;width:100%; height: 100%;}
+.dyanmo-inner .page{position: absolute;width:100%;}
+.dyanmo-inner .animatable {
+     -webkit-transition: -webkit-transform 0.3s ease-out;  /* Chrome 1-25, Safari 3.2+ */
+}
+.dyanmo-inner .page.active{}
+
+#dc-results .page{
+    background-color: yellow
+}
+
+#slide0{background-color: red}
+#slide1{background-color: blue}
+
+#slide3{background-color: green}
+#slide4{background-color: yellow}
