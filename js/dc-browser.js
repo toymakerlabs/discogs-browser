@@ -1,8 +1,14 @@
+$(function(){
+    DiscogsBrowser.init()
+})
 
+function test(arguments){
+    console.log(arguments)
+}
 
 var DiscogsBrowser  = (function(){
 
-   // Element selectors and initial params
+    //Element selectors and initial params
     var browser = $('#dc-browser'),
         results = $('#dc-results'),
         controls = $('#dc-controls'),
@@ -77,21 +83,21 @@ var DiscogsBrowser  = (function(){
             page = release_list.data.pagination.page,
             pages = release_list.data.pagination.pages;
         
-        //get the next slid//e in the carousel and dump the templated data into it
-        var target = results.find('div.page:not(.active)');
+        //get the next slide in the carousel and dump the templated data into it
+        var target = results.find('div.item:not(.active)');
         target.html(entries(release_list.data));
         
         //hide the status icon
         status.css({'display':'none'});
         
-        ////jump the carousel to the next or previous item depnending on the page
-        // if(page>currentPage){
-        //     results.dyamo('next');
-        // }
-        // if(page<currentPage){
-        //     results.dyamo('prev');
-        // }
-        // currentPage = page;
+        //jump the carousel to the next or previous item depnending on the page
+        if(page>currentPage){
+            results.carousel('next');
+        }
+        if(page<currentPage){
+            results.carousel('prev');
+        }
+        currentPage = page;
 
         //enable the release list to be clicked - get the release data
         $('td.release-info').on('click',function(e){
@@ -100,8 +106,8 @@ var DiscogsBrowser  = (function(){
         })
 
         console.log('success transition');
-        // results.dyanmo('prev');
-        // controls.dyanmo('next');
+        results.carousel('prev');
+        controls.carousel(1);
 
     }
 
@@ -224,14 +230,14 @@ var DiscogsBrowser  = (function(){
         var detail_controls = controls.find('div.item:not(.active)')
         detail_controls.html("<button id='dc-details-back' class='btn'><i class='icon-double-angle-left'></i> Back To Results</button><button id='dc-details-add' class='btn'><i class='icon-download'></i> Add</button>");
 
-        results.dyanmo('next');
-        controls.dyanmo('next');
+        results.carousel('next');
+        controls.carousel('next');
         console.log("advance")
 
         $('#dc-details-back').click(function(e){
             e.stopPropagation();
-            results.dyanmo('prev');
-            controls.dyanmo('prev');
+            results.carousel('prev');
+            controls.carousel('prev');
         });
 
         $('#dc-details-add').click(function(){
@@ -242,8 +248,8 @@ var DiscogsBrowser  = (function(){
     function resetBrowser() {
         results.find('.item').html('');
         pagination.html('');
-        results.dynamo(1);
-        controls.dynamo(1);
+        results.carousel(1);
+        controls.carousel(1);
 
         fields.release_title.val("");
         fields.artist.val("");
@@ -258,8 +264,12 @@ var DiscogsBrowser  = (function(){
     }
 
     function bindInteractions() {
-        results.dynamo();
-        controls.dynamo();
+        $('#dc-results').carousel({
+            interval:false
+        });
+        $('#dc-controls').carousel({
+            interval:false
+        });
 
         buttons.browse.click(function(){
             getReleases(1,true);
@@ -279,5 +289,3 @@ var DiscogsBrowser  = (function(){
     }
 
 })();
-
-

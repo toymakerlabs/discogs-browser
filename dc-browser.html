@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="css/dc-browser.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script id="release-results" type="text/x-handlebars-template">
         <table class="table table-hover">
         <tbody>
@@ -89,66 +90,65 @@
     </script>
 </head>
 <body>  
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-4">
-                    <div class="panel panel-default">
-                    <div class="panel-heading">Search Releases</div>
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <!--<label for="dc-title" class="col-sm-2 control-label">Title</label>-->
-                            <div class="col-sm-12"><input id="dc-title" class="form-control" type="text" placeholder="Title"></div>
-                        </div>
-                        <div class="form-group">
-                            <!--<label for="dc-artist" class="col-sm-2 control-label">Artist</label>-->
-                            <div class="col-sm-12"><input id="dc-artist" class="form-control" type="text" placeholder="Artist"></div>
-                        </div>
-                        <div class="form-group">
-                            <!--<label for="dc-catno" class="col-sm-2 control-label">Catalog #</label>-->
-                            <div class="col-sm-12"><input id="dc-catno" class="form-control" type="text" placeholder="Cat No."></div>
-                        </div>
-                        <div class="form-group">
-                            <!--<label for="dc-format" class="col-sm-2 control-label">Format</label>-->
-                            <div class="col-sm-12"><input id="dc-format" class="form-control" type="text" placeholder="format"></div>
-                        </div>
-                        <div class="form-group">
-                            <!--<label for="dc-upc" class="col-sm-2 control-label">UPC</label>-->
-                            <div class="col-sm-12"><input id="dc-upc" class="form-control" type="text" placeholder="UPC"></div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12 col-sm-12">
-                                
-                                <button id="dc-browse" type="button" class="btn btn-primary pull-right">Search<i class="icon-double-angle-right"></i></button>
-                                
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-8">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Results
-                        <button id="dc-reset" class="btn btn-default btn-xs close pull-right"aria-hidden="true">&times;</button>
-                        <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                <div class="panel-heading">Search Releases</div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <!--<label for="dc-title" class="col-sm-2 control-label">Title</label>-->
+                        <div class="col-sm-12"><input id="dc-title" class="form-control" type="text" placeholder="Title"></div>
                     </div>
-
-                    <div id="dc-results" class="dyamo">
-                        <div class='dyamo-inner'>
-                            <div class="page active"></div>
-                            <div class="page"></div>
+                    <div class="form-group">
+                        <!--<label for="dc-artist" class="col-sm-2 control-label">Artist</label>-->
+                        <div class="col-sm-12"><input id="dc-artist" class="form-control" type="text" placeholder="Artist"></div>
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="dc-catno" class="col-sm-2 control-label">Catalog #</label>-->
+                        <div class="col-sm-12"><input id="dc-catno" class="form-control" type="text" placeholder="Cat No."></div>
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="dc-format" class="col-sm-2 control-label">Format</label>-->
+                        <div class="col-sm-12"><input id="dc-format" class="form-control" type="text" placeholder="format"></div>
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="dc-upc" class="col-sm-2 control-label">UPC</label>-->
+                        <div class="col-sm-12"><input id="dc-upc" class="form-control" type="text" placeholder="UPC"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12">
+                            
+                            <button id="dc-browse" type="button" class="btn btn-primary pull-right">Search<i class="icon-double-angle-right"></i></button>
+                            
                         </div>
                     </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Results
+                    <button id="dc-reset" class="btn btn-default btn-xs close pull-right"aria-hidden="true">&times;</button>
+                    <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                </div>
 
-                    <div class="panel-footer">
-                        <div id="dc-controls" class="dynamo">
-                            <div class="dynamo-inner">
-                                <div class='page active'>
+                <div id="dc-results" class="carousel slide">
+                    <div class='carousel-inner'>
+                        <div class="item active"></div>
+                        <div class="item"></div>
+                    </div>
+                </div>
 
-                                 </div>
-                                <div class='page'>
-                                    <div id="dc-results-pagination">
-                                    </div>
+                <div class="panel-footer">
+                    <div id="dc-controls" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class='item active'>
+
+                             </div>
+                            <div class='item'>
+                                <div id="dc-results-pagination">
                                 </div>
                             </div>
                         </div>
@@ -157,6 +157,7 @@
             </div>
         </div>
     </div>
+</div>
 
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/dynamo.js"></script>

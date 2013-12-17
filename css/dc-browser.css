@@ -2,6 +2,8 @@ html,body{
     font-family: 'Arial',sans-serif;
 }
 
+
+
 .modal-large{
    width:760px;
    height: 460px;
@@ -75,19 +77,13 @@ td.thumb i{
 
 
 
-
 /*dynamo*/
-.dyanmo{overflow: hidden;height: 100px;}
-.dyanmo-inner{position:relative;width:100%; height: 100%;}
-.dyanmo-inner .page{position: absolute;width:100%;}
-.dyanmo-inner .animatable {
-     -webkit-transition: -webkit-transform 0.3s ease-out;  /* Chrome 1-25, Safari 3.2+ */
-}
-.dyanmo-inner .page.active{}
+div.dynamo{position: relative;overflow: hidden;}
+div.dynamo > div{position:relative;width:200%; height: 100%;}
+.page{position: relative;width:50%;float:left;left:-50%;}
+.page.active{left:0px;}
 
-#dc-results .page{
-    background-color: yellow
-}
+
 
 #slide0{background-color: red}
 #slide1{background-color: blue}
