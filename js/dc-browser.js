@@ -228,7 +228,7 @@ var DiscogsBrowser  = (function(){
         target.html(release_details(data.resp.release));
 
         var detail_controls = controls.find('div.item:not(.active)')
-        detail_controls.html("<button id='dc-details-back' class='btn'><i class='icon-double-angle-left'></i> Back To Results</button><button id='dc-details-add' class='btn'><i class='icon-download'></i> Add</button>");
+        detail_controls.html("<button id='dc-details-back' class='btn btn-primary'><i class='icon-double-angle-left'></i> Back To Results</button><button id='dc-details-add' class='btn btn-primary'><i class='icon-download'></i> Add</button>");
 
         results.carousel('next');
         controls.carousel('next');
@@ -271,9 +271,14 @@ var DiscogsBrowser  = (function(){
             interval:false
         });
 
-        buttons.browse.click(function(){
+        $('#browse-releases').submit(function(e) {
+            e.preventDefault();  // Doesn't matter
             getReleases(1,true);
-        })
+        });
+
+        // buttons.browse.click(function(){
+        //     getReleases(1,true);
+        // })
 
         buttons.reset.click(function(){
             resetBrowser();

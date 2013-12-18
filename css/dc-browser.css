@@ -22,8 +22,12 @@ html,body{
 }
 
 #dc-results{
-    height:400px;
+    height:520px;
     overflow-y:scroll;
+/*    -webkit-overflow-scrolling: touch;*/
+}
+#dc-controls{
+    height: 60px;
 }
 
 td.release-info h5{
@@ -80,8 +84,8 @@ td.thumb i{
 /*dynamo*/
 div.dynamo{position: relative;overflow: hidden;}
 div.dynamo > div{position:relative;width:200%; height: 100%;}
-.page{position: relative;width:50%;float:left;left:-50%;}
-.page.active{left:0px;}
+.page{position: relative;width:50%;float:left;}
+.page.active{l}
 
 
 
