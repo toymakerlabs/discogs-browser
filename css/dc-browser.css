@@ -23,12 +23,17 @@ html,body{
 
 #dc-results{
     height:520px;
-    overflow-y:scroll;
-/*    -webkit-overflow-scrolling: touch;*/
 }
 #dc-controls{
-    height: 60px;
+    height: 80px;
 }
+
+/*dynamo*/
+div.dynamic-panel{position: relative;overflow: hidden;}
+div.dynamic-panel > div.dynamic-panel-inner{position:relative;width:100%; height: 100%;overflow: hidden;}
+.item{position: absolute;width:100%;height: 100%;overflow: auto;-webkit-overflow-scrolling: touch;}
+.item.active{l}
+
 
 td.release-info h5{
     padding:0;
@@ -81,16 +86,11 @@ td.thumb i{
 
 
 
-/*dynamo*/
-div.dynamo{position: relative;overflow: hidden;}
-div.dynamo > div{position:relative;width:200%; height: 100%;}
-.page{position: relative;width:50%;float:left;}
-.page.active{l}
 
-
+/*
 
 #slide0{background-color: red}
 #slide1{background-color: blue}
 
 #slide3{background-color: green}
-#slide4{background-color: yellow}
+#slide4{background-color: yellow}*/

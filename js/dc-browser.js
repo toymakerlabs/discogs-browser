@@ -20,6 +20,7 @@ var DiscogsBrowser  = (function(){
         entries = Handlebars.compile(release_template),
         release_details = Handlebars.compile(details_template),
         pages_output =  Handlebars.compile(pagination_template),
+        currentQuery = null,
         currentPage = 1;
 
     var fields = {
@@ -68,7 +69,7 @@ var DiscogsBrowser  = (function(){
             success: function (data) {
                 parseReleases(data);
                 doPagination(data);
-                
+
             },
             error:function(msg){
                 console.log(msg)
@@ -82,21 +83,32 @@ var DiscogsBrowser  = (function(){
         var releases = release_list.data.results,
             page = release_list.data.pagination.page,
             pages = release_list.data.pagination.pages;
-        
-        //get the next slide in the carousel and dump the templated data into it
+
+        //get the next slide in the dynamicpanel and dump the templated data into it
         var target = results.find('div.item:not(.active)');
         target.html(entries(release_list.data));
         
         //hide the status icon
         status.css({'display':'none'});
         
-        //jump the carousel to the next or previous item depnending on the page
+        //jump the dynamicpanel to the next or previous item depnending on the page
         if(page>currentPage){
-            results.carousel('next');
+            results.dynamicpanel('next');
         }
         if(page<currentPage){
-            results.carousel('prev');
+            results.dynamicpanel('prev');
         }
+
+        if (page == 1 && currentPage == 1){
+            results.dynamicpanel("next")
+            controls.dynamicpanel('next')
+        }
+
+        if(currentPage>1 && page==1){
+            results.dynamicpanel("prev")
+        }
+
+        console.log(release_list.data)
         currentPage = page;
 
         //enable the release list to be clicked - get the release data
@@ -106,8 +118,8 @@ var DiscogsBrowser  = (function(){
         })
 
         console.log('success transition');
-        results.carousel('prev');
-        controls.carousel(1);
+        //results.dynamicpanel("next");
+        //controls.dynamicpanel("next");
 
     }
 
@@ -227,17 +239,18 @@ var DiscogsBrowser  = (function(){
         var target = results.find('div.item:not(.active)');
         target.html(release_details(data.resp.release));
 
+        console.log("advance")
         var detail_controls = controls.find('div.item:not(.active)')
         detail_controls.html("<button id='dc-details-back' class='btn btn-primary'><i class='icon-double-angle-left'></i> Back To Results</button><button id='dc-details-add' class='btn btn-primary'><i class='icon-download'></i> Add</button>");
 
-        results.carousel('next');
-        controls.carousel('next');
-        console.log("advance")
+        results.dynamicpanel('next');
+        controls.dynamicpanel('next');
+
 
         $('#dc-details-back').click(function(e){
             e.stopPropagation();
-            results.carousel('prev');
-            controls.carousel('prev');
+            results.dynamicpanel('prev');
+            controls.dynamicpanel('prev');
         });
 
         $('#dc-details-add').click(function(){
@@ -248,8 +261,8 @@ var DiscogsBrowser  = (function(){
     function resetBrowser() {
         results.find('.item').html('');
         pagination.html('');
-        results.carousel(1);
-        controls.carousel(1);
+        results.dynamicpanel("prev");
+        controls.dynamicpanel("prev");
 
         fields.release_title.val("");
         fields.artist.val("");
@@ -264,14 +277,16 @@ var DiscogsBrowser  = (function(){
     }
 
     function bindInteractions() {
-        $('#dc-results').carousel({
-            interval:false
+        $('#dc-results').dynamicpanel({
+            duration:500,
+            ease3d:'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
         });
-        $('#dc-controls').carousel({
-            interval:false
+        $('#dc-controls').dynamicpanel({
+            duration:500,
+            ease3d:'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
         });
 
-        $('#browse-releases').submit(function(e) {
+        $('#browse-releases').unbind("submit").submit(function(e) {
             e.preventDefault();  // Doesn't matter
             getReleases(1,true);
         });
