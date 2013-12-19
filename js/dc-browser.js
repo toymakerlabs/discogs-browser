@@ -1,3 +1,27 @@
+(function($) {
+
+  var o = $({});
+
+  $.subscribe = function() {
+    o.on.apply(o, arguments);
+  };
+
+  $.unsubscribe = function() {
+    o.off.apply(o, arguments);
+  };
+
+  $.publish = function() {
+    o.trigger.apply(o, arguments);
+  };
+
+}(jQuery));
+
+
+
+
+
+
+
 $(function(){
     DiscogsBrowser.init()
 })
@@ -5,6 +29,114 @@ $(function(){
 function test(arguments){
     console.log(arguments)
 }
+
+var ResultsController = function(){
+    
+}
+
+//Results UI View
+var Pagination = function(){
+    var currentpage = 0,
+        pagination = $('#dc-results-pagination'),page,pages;
+
+    var getPaginationHTML= function(){
+        var list = {};
+        list.entries = [];
+
+        if(pages>8){
+            for (var i=0;i<6;i++){
+                if (page == pages){
+                    list.entries.push({number:String((pages-6)+i)})
+                }else{
+                    list.entries.push({number:String(page+i)})
+                };
+            }
+            list.entries.push({number:"...",isDisabled:true});
+            list.entries.push({number:String(pages)});
+        }else{
+            for (i=1;i<=pages;i++){
+                list.entries.push({number:String(i)});
+            }
+        }
+
+        return pages_output(list);
+    }
+
+    var activatePagination = function(){
+        if(page >1){
+            $('#pag-prev').parent().removeClass('disabled');
+            $('#pag-first').parent().removeClass('disabled');
+        }
+        if(page == pages){
+            $('#pag-next').parent().addClass('disabled');
+
+        }
+        if(page == 1){
+            $('#pag-prev').parent().addClass('disabled');
+            $('#pag-prev').parent().addClass('disabled');
+        }
+
+        if (pages < 8){
+            pagination.find("[data-page='" + page + "']").addClass('active');
+        }else{
+            pagination.find('li:eq(2)').addClass('active');
+        }
+    }
+
+    var bindPaginationEvents = function(){
+        $('#pag-next').click(function(){
+            if(page < pages){
+                getReleases(page+1, true);
+            }
+        })
+        //Pagination prev
+        $('#pag-prev').click(function(){
+            if(page>1){
+                getReleases(page-1,true);
+            }
+        })
+
+        pagination.off().on("click","li",function(e){
+            //match digits to avoid adding "next/prev" to currentpage
+            var index = $(this).data("page");
+            e.stopPropagation();
+            e.preventDefault();
+            console.log("clicky")
+            if(index != null){
+                console.log(index);
+                //getReleases(index,true);
+            }
+        });
+    }
+
+    return {
+        getPagination:function(page,pages){
+
+        }
+    }
+
+    
+}
+var ResultsPanel = function(){
+    var results_view = $("#results-view-panel"),
+        results = $('#dc-results'),
+        controls = $('#dc-controls'),
+        status = $('#dc-status');
+
+
+})();
+
+
+
+
+
+
+
+var SearchController = (function(){
+
+})();
+
+
 
 var DiscogsBrowser  = (function(){
 
@@ -69,6 +201,7 @@ var DiscogsBrowser  = (function(){
             success: function (data) {
                 parseReleases(data);
                 doPagination(data);
+
 
             },
             error:function(msg){
