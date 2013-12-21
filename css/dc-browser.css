@@ -44,14 +44,24 @@ td.release-info h5{
     margin: 4px;
     font-size:10px;
 }
-td.thumb {
-    width:90px;
+td.thumb img {
+    width: 90px;
 }
 td.thumb i{
     float:right;
     color:#999;
 }
+.inline-headers h2, .inline-headers h4 {
+  display: inline-block;
+  vertical-align: baseline;
+}
 
+#results-panel-view .panel-heading{
+    overflow: auto;
+}
+#results-panel-view .panel-heading .status{
+    text-align: center;
+}
 /*.row:nth-child(odd){
     background-color: #F2F2F2
 }
@@ -77,7 +87,7 @@ td.thumb i{
 }
 
 
-#dc-status {float:right;display: none;}
+#dc-status {display: none;}
 
 
 .release_entry {float:left;clear:both;margin-top:5px;}

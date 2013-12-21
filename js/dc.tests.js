@@ -10,15 +10,17 @@ DC.testReleases = function(){
 	fields.release_title.val();
     fields.artist.val("kiss");
     fields.catno.val();
+    setTimeout(function(){
+   	  	DC.Releases.get();
 
-   	DC.Releases.get();
+    },20)
 
     
 }
 
 DC.testDetails = function(){
-	var releaseID = 1;
-	DC.ReleaseDetails.get(73285);
+	var releaseID = 1443905;
+	DC.ReleaseDetails.get(1443905);
 }
 
 DC.testDataSet = function(){

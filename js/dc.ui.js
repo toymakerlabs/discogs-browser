@@ -1,13 +1,13 @@
-DC.ResultsPanel = (function(){
-
-})();
-
-//results panel view
-var ResultsPanel = (function(){
-    var results_view = $("#results-view-panel"),
-        results = $('#dc-results'),
-        controls = $('#dc-controls'),
-        status = $('#dc-status');
-
-
-})();
+DC.ui = {}
+DC.ui.StatusIcon = function(el){
+	this.element = $(el);
+	this.state = 0;
+}
+DC.ui.StatusIcon.prototype = {
+	show:function(){
+		this.element.css({"display":"block"});
+	},
+	hide:function(){
+		this.element.css({"display":"none"});
+	}
+}

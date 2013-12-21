@@ -10,7 +10,7 @@
     <script id="release-results" type="text/x-handlebars-template">
         <table class="table table-hover">
         <tbody>
-        {{#results}}
+        {{#each .}}
         <tr>
             <td class="thumb"><img src="{{thumb}}"/><i class='icon-download'>Add </i></td>
             <td class="release-info" data-release={{{id}}>
@@ -22,7 +22,7 @@
                 </ul>
             </td>
         </tr>
-        {{/results}}
+        {{/each}}
         </tbody>
         </table>
     </script>
@@ -76,8 +76,8 @@
     </script>
     <script id="results-pagination" type="text/x-handlebars-template">
     <ul class='pagination'>
-    <li class='btn disabled'><a href='#' id='pag-prev'>Prev</a></li>
-    <li class='btn disabled' data-page="1"><a href='#' id='pag-first'>First</a></li>
+    <li class='btn'><a href='#' id='pag-prev'>Prev</a></li>
+    <li class='btn'><a href='#' id='pag-first'>First</a></li>
     {{#entries}}
         {{#if isDisabled}}
             <li class='disabled'><a href='#'>{{number}}</a></li>
@@ -94,7 +94,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-4 col-md-4">
                 <div class="panel panel-default">
-                <div class="panel-heading">Search Releases</div>
+                <div class="panel-heading"><h4>Search Releases</h4></div>
                 <form id="browse-releases" class="form-horizontal" role="form">
                     <div class="form-group">
                         <!--<label for="dc-title" class="col-sm-2 control-label">Title</label>-->
@@ -129,9 +129,9 @@
         <div class="col-xs-12 col-sm-8 col-md-8">
             <div id="results-panel-view" class="panel panel-default">
                 <div class="panel-heading">
-                    Results
-                    <button id="dc-reset" class="btn btn-default btn-xs close pull-right"aria-hidden="true">&times;</button>
-                    <i id="dc-status" class="icon-spinner icon-spin icon-2x pull-left"></i>
+                    <div class="col-sm-4"><h4>Results</h4></div>
+                    <div class="col-sm-4 status"><i id="dc-status" class="icon-spinner icon-spin icon-2x"></i><p id="results-count"></p></div>
+                    <div class="col-sm-4"><button id="dc-reset" class="btn btn-default btn-sm pull-right"aria-hidden="true">clear &times;</button></div>
                 </div>
 
                 <div id="dc-results" class="dynamic-panel">
@@ -148,8 +148,7 @@
 
                              </div>
                             <div class='item'>
-                                <div id="dc-results-pagination">
-                                </div>
+                                <div id="dc-results-pagination"></div>
                             </div>
                         </div>
                     </div>
@@ -165,7 +164,9 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/handlebars.js"></script>
 <!-- <script type="text/javascript" src="js/dc-browser.js"></script>
- --><script type="text/javascript" src="js/base.js"></script>
+ -->
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/dc.ui.js"></script>
 <script type="text/javascript" src="js/dc.search.js"></script>
 <script type="text/javascript" src="js/dc.tests.js"></script>
 <script type="text/javascript" src="js/dc.results.js"></script>

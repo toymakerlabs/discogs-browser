@@ -70,8 +70,8 @@ DC.DetailsDataset = (function(){
 			console.log(release)
 			$.publish("onDetailsLoaded");
 		},
-		getData:function(){
-			return data;
+		getRelease:function(){
+			return release;
 		}
 	}
 })();
@@ -80,6 +80,7 @@ DC.DetailsDataset = (function(){
 DC.ReleaseDetails = (function(){
 	return {
 		get:function(id){
+			$.publish("onLoadStarted",["details"]);
 			$.ajax({
 	            url: DC.config.releaseURL+id,
 	            type: "GET",
@@ -112,7 +113,8 @@ DC.ReleaseDataset = (function(){
 			pages = response.data.pagination.pages;
 			page = response.data.pagination.page;
 			total = response.data.pagination.items;
-			$.publish("onReleasesLoaded");
+			console.log(response.data)
+			$.publish("onReleasesLoadComplete");
 		},
 		getPage:function(){
 			return page;
@@ -149,13 +151,13 @@ DC.SearchFormView = (function(){
 	        artist:fields.artist.val(),
 	        catno:fields.catno.val(),
 	        per_page: DC.config.resultsPerPage,
-	        type:"release",
 	    }
+	    return search_data;
     }
 
     return {
     	getValidData:function(){
-    		return search_data;
+    		return validate();
     	}
     }
 	
@@ -168,8 +170,9 @@ DC.Releases = (function(){
 	var currentPage = 1,
 		query = null;
 
-	function getReleases(query){
+	function getReleases(query,queryType){
 		query.page = currentPage;
+		$.publish("onLoadStarted",[queryType]);
 		$.ajax({
 	        url: DC.config.searchURL,
 	        type: "GET",
@@ -184,24 +187,36 @@ DC.Releases = (function(){
         });
 	}
 	return {
+		//add optional parameter to jump to a page
 		get:function(){
 			query = DC.SearchFormView.getValidData();
 			query.type = "release";
-			getReleases(query);
+			getReleases(query,"new");
+		},
+		getReleasePage:function(page){
+			if(page<currentPage){
+				currentPage = page;
+				getReleases(query,"prev");
+			}else{
+				currentPage = page;
+				getReleases(query,"next");
+			}
+
+			console.log(currentPage);
 		},
 		nextPage:function(){
 			//next ajax
 			if(currentPage < DC.ReleaseDataset.getPages()){
 				currentPage++;
 				console.log(currentPage);
-				getReleases(query);
+				getReleases(query,"next");
 			}
 		},
 		prevPage:function(){
 			//prev ajax
 			if(currentPage >0){
 				currentPage --;
-				getReleases(query);
+				getReleases(query,"prev");
 			}
 		}
 	}
